@@ -16,7 +16,22 @@ $('.loan-parts .loan-details').each(function(i, loanDetails) {
  * @param {event} event The click event data that has the loan id stored in it.
  */
 function ignoreLoan(event) {
-  console.log('Inside ignoreLoan function. loanId = ' + event.data.loanId);
+  var loanId = event.data.loanId;
+
+  // First get the currently stored ignored loans from storage. Then in the
+  // callback function, update the array and write it back to sync storage.
+  chrome.storage.sync.get('ignoredLoans', function(ignoredLoans) {
+    var updatedIgnoredLoans = [];
+    if ($.isEmptyObject(ignoredLoans)) {
+      updatedIgnoredLoans = [loanId];
+    }
+    else {
+      updatedIgnoredLoans = ignoredLoans.ignoredLoans;
+      updatedIgnoredLoans.push(loanId);
+    }
+    chrome.storage.sync.set({ 'ignoredLoans': updatedIgnoredLoans });
+  });
+
 }
 
 

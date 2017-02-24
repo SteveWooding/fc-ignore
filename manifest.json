@@ -4,6 +4,9 @@
   "name": "FC Ignore",
   "description": "An extension to the Funding Circle website that maintains an ignore list of loans.",
   "version": "0.1",
+  "permissions": [
+    "storage"
+  ],
   "content_scripts": [
     {
       "matches": [
