@@ -31,7 +31,7 @@ function renderIgnoreButtons() {
     var $loanDetails = $(loanDetails),
       loanId = $loanDetails.find('p.company-info').text().
         replace(/\r?\n|\r/g, '');
-    $loanDetails.append('<button class="ignoreBtn" id="' + loanId +
+    $loanDetails.append('<button class="ignore-btn" id="' + loanId +
       '">Ignore</button>');
   });
 }
@@ -70,7 +70,7 @@ function ignoreLoan(event) {
  * clicks on a ignore button.
  */
 function addClickBtnListeners() {
-  $('.ignoreBtn').each(function(i, btnDetails) {
+  $('.ignore-btn').each(function(i, btnDetails) {
     var $btnDetails = $(btnDetails);
     var loanId = $btnDetails.attr('id');
     $btnDetails.click({ loanId: loanId }, ignoreLoan);
