@@ -15,7 +15,7 @@ function hideLoans() {
       var $loanDetails = $(loanDetails),
       loanId = $loanDetails.find('p.company-info').text().
           replace(/\r?\n|\r/g, '');
-      if ($.inArray(loanId, loansToIgnore) > -1) {
+      if ($.inArray(parseInt(loanId), loansToIgnore) > -1) {
         $loanDetails.parent().hide();
       }
     });
@@ -50,11 +50,11 @@ function ignoreLoan(event) {
   chrome.storage.sync.get('ignoredLoans', function(ignoredLoans) {
     var updatedIgnoredLoans = [];
     if ($.isEmptyObject(ignoredLoans)) {
-      updatedIgnoredLoans = [loanId];
+      updatedIgnoredLoans = [parseInt(loanId)];
     }
     else {
       updatedIgnoredLoans = ignoredLoans.ignoredLoans;
-      updatedIgnoredLoans.push(loanId);
+      updatedIgnoredLoans.push(parseInt(loanId));
     }
     chrome.storage.sync.set({ 'ignoredLoans': updatedIgnoredLoans },
       function() {
