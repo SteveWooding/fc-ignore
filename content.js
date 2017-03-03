@@ -1,14 +1,29 @@
+// Define the maxium number of loans to store in each Chrome sync storage item
+// and the maximum number of storage items. Times these two numbers together to
+// get the total number of loans that can be stored.
+var loansPerItem = 1000;
+var totalNumItems = 100;
+
+
 /**
  * Function to hide loans based on the list stored in Chrome sync storage.
  */
 function hideLoans() {
-  chrome.storage.sync.get('ignoredLoans', function(ignoredLoans) {
+  var itemNames = [];
+  for (i = 0; i < totalNumItems; i++) {
+    itemNames.push('ignoredLoans' + i);
+  }
+
+  chrome.storage.sync.get(itemNames, function(result) {
     var loansToIgnore = [];
-    if ($.isEmptyObject(ignoredLoans)) {
+    if ($.isEmptyObject(result)) {
       return;
-    }
-    else {
-      loansToIgnore = ignoredLoans.ignoredLoans;
+    } else {
+      for (var loanItem in result) {
+        if (result.hasOwnProperty(loanItem)) {
+          loansToIgnore = loansToIgnore.concat(result[loanItem]);
+        }
+      }
     }
 
     $('.loan-details').each(function(i, loanDetails) {
@@ -40,27 +55,58 @@ function renderIgnoreButtons() {
 /**
  * This function will interface with local storage to store the loan id to be
  * ignored.
- * @param {event} event The click event data that has the loan id stored in it.
+ * @param {int} loanId The ID of the loan to be set to ignore.
+ * @param {int} itemNum The number of the storage item where the loan id will
+ *     be stored.
  */
-function ignoreLoan(event) {
-  var loanId = event.data.loanId;
-
+function ignoreLoan(loanId, itemNum) {
   // First get the currently stored ignored loans from storage. Then in the
   // callback function, update the array and write it back to sync storage.
-  chrome.storage.sync.get('ignoredLoans', function(ignoredLoans) {
+  chrome.storage.sync.get('ignoredLoans' + itemNum, function(result) {
     var updatedIgnoredLoans = [];
-    if ($.isEmptyObject(ignoredLoans)) {
+
+    if ($.isEmptyObject(result)) {
       updatedIgnoredLoans = [parseInt(loanId)];
-    }
-    else {
-      updatedIgnoredLoans = ignoredLoans.ignoredLoans;
+    } else if (result['ignoredLoans' + itemNum].length >= loansPerItem) {
+      itemNum++;
+      if (itemNum > (totalNumItems - 1)) {
+        alert('Loan failed to be ignored. Maximum ignored number of loans ' +
+          'reached!');
+        return;
+      }
+      chrome.storage.sync.set({ 'currentItemNum': itemNum });
+      updatedIgnoredLoans = [parseInt(loanId)];
+    } else {
+      updatedIgnoredLoans = result['ignoredLoans' + itemNum];
       updatedIgnoredLoans.push(parseInt(loanId));
     }
-    chrome.storage.sync.set({ 'ignoredLoans': updatedIgnoredLoans },
+
+    var itemName = 'ignoredLoans' + itemNum;
+    chrome.storage.sync.set({ [itemName]: updatedIgnoredLoans },
       function() {
         // Run the hide loans function again, so this latest loan is hidden too.
         hideLoans();
     });
+  });
+}
+
+
+/**
+ * Before calling the main ignore function, extract the loan id from the click
+ * event and find out the current ignore loan item in Chrome sync storage.
+ * @param {event} event The click event object.
+ */
+function ignoreLoanInit(event) {
+  var loanId = event.data.loanId;
+
+  // Get the current storage item number. If it doesn't exist, set it to zero.
+  chrome.storage.sync.get('currentItemNum', function(result) {
+    if ($.isEmptyObject(result)) {
+      ignoreLoan(loanId, 0);
+      chrome.storage.sync.set({ 'currentItemNum': 0 });
+    } else {
+      ignoreLoan(loanId, result.currentItemNum);
+    }
   });
 }
 
@@ -73,7 +119,7 @@ function addClickBtnListeners() {
   $('.ignore-btn').each(function(i, btnDetails) {
     var $btnDetails = $(btnDetails);
     var loanId = $btnDetails.attr('id');
-    $btnDetails.click({ loanId: loanId }, ignoreLoan);
+    $btnDetails.click({ loanId: loanId }, ignoreLoanInit);
   });
 }
 
