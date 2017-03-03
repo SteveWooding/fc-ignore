@@ -6,6 +6,16 @@ var totalNumItems = 100;
 
 
 /**
+ * Extracts the loan id from the loan details jQuery object extracted from the
+ * web page.
+ * @param {jQuery} loanDetails
+ */
+function extractLoanId($loanDetails) {
+  return $loanDetails.find('p.company-info').text().replace(/\r?\n|\r/g, '');
+}
+
+
+/**
  * Function to hide loans based on the list stored in Chrome sync storage.
  */
 function hideLoans() {
@@ -28,8 +38,7 @@ function hideLoans() {
 
     $('.loan-details').each(function(i, loanDetails) {
       var $loanDetails = $(loanDetails),
-      loanId = $loanDetails.find('p.company-info').text().
-          replace(/\r?\n|\r/g, '');
+        loanId = extractLoanId($loanDetails);
       if ($.inArray(parseInt(loanId), loansToIgnore) > -1) {
         $loanDetails.parent().hide();
       }
@@ -44,8 +53,7 @@ function hideLoans() {
 function renderIgnoreButtons() {
   $('.loan-parts .loan-details').each(function(i, loanDetails) {
     var $loanDetails = $(loanDetails),
-      loanId = $loanDetails.find('p.company-info').text().
-        replace(/\r?\n|\r/g, '');
+      loanId = extractLoanId($loanDetails);
     $loanDetails.append('<button class="ignore-btn" id="' + loanId +
       '">Ignore</button>');
   });
