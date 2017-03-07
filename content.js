@@ -69,8 +69,8 @@ function renderIgnoreButtons() {
   $('.loan-parts .loan-details').each(function(i, loanDetails) {
     var $loanDetails = $(loanDetails),
       loanId = extractLoanId($loanDetails);
-    $loanDetails.append('<button class="ignore-btn" id="' + loanId +
-      '">Ignore</button>');
+    $loanDetails.append('<button class="ignore-btn" title="Ignore loan" id="' +
+      loanId + '"><b>🚫</b></button>');
   });
 }
 
@@ -131,6 +131,9 @@ function ignoreLoanInit(event) {
       ignoreLoan(loanId, result.currentItemNum);
     }
   });
+
+  // Stop the loan popup from also being displayed when ignoring a loan.
+  event.stopPropagation();
 }
 
 
