@@ -1,0 +1,9 @@
+.loan-details a {
+  margin-left: 20px;
+  float: left;
+}
+
+.ignore-btn {
+  color: #8b0000;
+  padding: 0px 2px 0px 2px;
+}
