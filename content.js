@@ -1,3 +1,18 @@
+/**
+ * @fileoverview This Chrome extension allows the user to hide loans that they
+ * are not interested in buying in the secondary market. Loan ids to be ignored
+ * are stored in Chrome's sync storage system. This means the data is backed up
+ * to Google and would be available to other installations of Chrome the user
+ * may have.
+ *
+ * At the end of this file, the extension waits for the secondary market page to
+ * finish loading. It then renders the ignore buttons, adds listeners to them
+ * and then hides the loans currently in the extension's Chrome sync storage.
+ *
+ * @author steve@stevenwooding.com (Steven Wooding)
+ * @license MIT
+ */
+
 // Define the maxium number of loans to store in each Chrome sync storage item
 // and the maximum number of storage items. Times these two numbers together to
 // get the total number of loans that can be stored.
@@ -48,7 +63,7 @@ function hideLoans() {
 
 
 /**
- * Place an ignore button on each loan
+ * Place an ignore button on each loan.
  */
 function renderIgnoreButtons() {
   $('.loan-parts .loan-details').each(function(i, loanDetails) {
