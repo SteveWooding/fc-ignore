@@ -4,9 +4,9 @@
 This Chrome extension is for the [Funding Circle](https://www.fundingcircle.com)
 website and the secondary market for loans on the site.
 
-Sometimes when you are browsing the secondary loan market, you judge a loan not
-right for you and would like it not to be shown again. This is the problem that
-this extension for Chrome solves.
+Sometimes when you are browsing the secondary loan market, you judge that a loan
+is not right for you and would like it not to be shown again. This is the
+problem that this extension for Chrome solves.
 
 ## How it works
 Each loan gets an ignore button placed next to it. When a user clicks this
