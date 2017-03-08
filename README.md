@@ -55,6 +55,11 @@ each Chrome extension should have only one main purpose.
 If you find any issues with this Chrome Extension, please file a new issue here
 on GitHub and I will look into it.
 
+## Disclaimer
+This extension is not supported nor endorsed by Funding Circle. This extension
+adds a 3rd party feature to the Funding Circle website and may stop working at
+any time due to changes to the Funding Circle website.
+
 ## License
 This code is covered under the MIT license, a copy of which can be found in the
 file `LICENSE.md`.
