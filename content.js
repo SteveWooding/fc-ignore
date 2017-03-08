@@ -13,7 +13,7 @@
  * @license MIT
  */
 
-// Define the maxium number of loans to store in each Chrome sync storage item
+// Define the maximum number of loans to store in each Chrome sync storage item
 // and the maximum number of storage items. Times these two numbers together to
 // get the total number of loans that can be stored.
 var loansPerItem = 1000;
