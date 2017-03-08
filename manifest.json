@@ -12,7 +12,7 @@
       "matches": [
         "https://www.fundingcircle.com/secondary-market"
       ],
-      "css": ["stlye.css"],
+      "css": ["style.css"],
       "js": ["jquery-3.1.1.min.js","content.js"]
     }
   ]
