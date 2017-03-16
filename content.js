@@ -159,3 +159,30 @@ $(document).ready(function() {
   addClickBtnListeners();
   hideLoans();
 });
+
+
+/**
+ * Set up a mutation observer to watch the page for when the data in the loan
+ * table changes. When this happens, re-render the ignore buttons, add listeners
+ * to buttons and hide any loans that need hiding.
+ */
+var MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+var observer = new MutationObserver(function(mutations) {
+  mutations.forEach(function(mutation) {
+    if (mutation.addedNodes.length > 0 && mutation.addedNodes[0].className ===
+      'loan-parts grouped fadeIn') {
+        renderIgnoreButtons();
+        addClickBtnListeners();
+        hideLoans();
+    }
+  });
+});
+
+// configuration of the observer:
+var config = {
+  childList: true, subtree: true
+};
+
+// Start the observer on the whole web page.
+observer.observe(document, config);
+
