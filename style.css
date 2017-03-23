@@ -1,5 +1,5 @@
 .loan-details a {
-  margin-left: 20px !important;
+  margin-left: 0px !important;
   float: left;
 }
 
@@ -7,4 +7,8 @@
   color: #772d72;
   padding: 0px 2px 0px 2px;
   float: right;
+}
+
+.loan-parts .company-info {
+  min-width: 2.6em  !important;
 }
