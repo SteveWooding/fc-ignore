@@ -55,7 +55,7 @@ function hideLoans() {
       var $loanDetails = $(loanDetails),
         loanId = extractLoanId($loanDetails);
       if ($.inArray(parseInt(loanId), loansToIgnore) > -1) {
-        $loanDetails.parent().hide();
+        $loanDetails.parent().hide('fast');
       }
     });
   });
