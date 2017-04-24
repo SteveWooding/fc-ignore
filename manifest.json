@@ -1,9 +1,12 @@
 {
   "manifest_version": 2,
 
-  "name": "FC Ignore",
+  "name": "FCignore",
   "description": "An extension to the Funding Circle website that maintains an ignore list of loans.",
   "version": "0.1",
+  "icons": {
+    "128": "png/icon_128.png"
+  },
   "permissions": [
     "storage"
   ],
@@ -12,8 +15,8 @@
       "matches": [
         "https://www.fundingcircle.com/secondary-market"
       ],
-      "css": ["style.css"],
-      "js": ["jquery-3.1.1.min.js","content.js"]
+      "css": ["css/style.css"],
+      "js": ["js/jquery-3.1.1.min.js","js/content.js"]
     }
   ]
 }
